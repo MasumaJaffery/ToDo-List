@@ -4,14 +4,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e4617bc15f.js" crossorigin="anonymous"></script>
     <title>To Do List</title>
   </head>
   <body>
     <div class = "container">
+      <div class = "heading">
       <h2>Today's To Do</h2>
-       <div><input type = "text" id = "input-id" placeholder="Add to your list......"></div>
+      <button id = "refresh">
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
+      </div>
+      <div class = "line"></div>
+      <div class = "Input">
+      <form id = "list-form">  
+      <input type = "text" id = "input-id" placeholder="Add to your list......" >
+      <button type = "button" id = "enter"> <i class="fa-solid fa-reply"></i></button>
+      </form>
+      </div>
       <ul id = "list-container"></ul>
+      <div class = "btn"><button id = "clear">Clear all completed</button></div>
     </div>
   </body>
 </html>
