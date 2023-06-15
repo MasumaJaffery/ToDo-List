@@ -1,5 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Lato&family=Lexend:wght@400;500&family=Manrope&family=Noto+Color+Emoji&display=swap');
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: 2px solid grey;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 35%;
+  transform: translate(-50%, -50%);
+}
+
+.heading {
+  padding: 1rem;
+  display: flex;
+  gap: 16.9rem;
+}
+
+.heading h2 {
+  font-size: 1.5rem;
+}
+
+.heading #refresh {
+  background-color: #fff;
+  border: none;
+  font-size: 1.2rem;
+}
+
+.Input {
+  display: flex;
+  gap: 16.9rem;
+  border: 1px solid #616161;
+  padding: 0.3rem;
+  width: 100%;
+}
+
+input {
+  margin: 0.6rem;
+}
+
+.Input input {
+  font-size: 1rem;
+  border: none;
+  width: 30vw;
+  margin: 0.6rem;
+}
+
+.btn {
+  background-color: #e9e7e7;
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  border-top: 1px solid #999;
+}
+
+#clear {
+  background: none;
+  border: none;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+#enter {
+  background: none;
+  border: none;
+}
+
+li {
+  list-style: none;
+  border: 1px solid #000;
+  width: 35vw;
+  padding: 0.2rem;
 }
