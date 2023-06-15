@@ -3,8 +3,12 @@ import List from './modules/list.js';
 
 const form = document.getElementById('list-form');
 const listContainer = document.getElementById('list-container');
-const tasks = [];
-let id = 0;
+const tasks = [
+  { description: 'Task 1', complete: true, id: 0 },
+  { description: 'Task 2', complete: true, id: 1 },
+  { description: 'Task 3', complete: false, id: 2 }
+];
+let id = tasks.length;
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
