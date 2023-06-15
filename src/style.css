@@ -16,14 +16,14 @@
   position: absolute;
   top: 30%;
   left: 50%;
+  width: 35%;
   transform: translate(-50%, -50%);
 }
 
 .heading {
   padding: 1rem;
   display: flex;
-  gap: 3rem;
-  border-bottom: 2px solid #000;
+  gap: 16.9rem;
 }
 
 .heading h2 {
@@ -37,14 +37,22 @@
 }
 
 .Input {
-  border: 1px solid #000;
-  margin: 1rem;
-  padding: 0.5rem;
+  display: flex;
+  gap: 16.9rem;
+  border: 1px solid #616161;
+  padding: 0.3rem;
+  width: 100%;
+}
+
+input {
+  margin: 0.6rem;
 }
 
 .Input input {
   font-size: 1rem;
   border: none;
+  width: 30vw;
+  margin: 0.6rem;
 }
 
 .btn {
@@ -66,3 +74,11 @@
   background: none;
   border: none;
 }
+
+li {
+  list-style: none;
+  border: 1px solid #000;
+  width: 35vw;
+  padding: 0.2rem;
+}
+

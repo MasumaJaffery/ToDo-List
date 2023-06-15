@@ -3,29 +3,44 @@ import List from './modules/list.js';
 
 const form = document.getElementById('list-form');
 const listContainer = document.getElementById('list-container');
-//const refresh = document.getElementById('refresh');
-//const enter = document.getElementById('enter');
-//const remove = document.getElementById('clear');
 const tasks = [];
 let id = 0;
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const input = document.getElementById('input-id');
-  const todo = new List(input.value, Boolean(), id); // Corrected line
+  const todo = new List(input.value, Boolean(), id); 
   tasks.push(todo);
+  // Pushing Objests in Task Array!
   id += 1;
   renderList();
 });
 
 function renderList() {
-  // Clear existing list
+  // Clear the list container
   listContainer.innerHTML = '';
 
-  // Render each task
-  tasks.forEach(task => {
+  // Render each task as a checkbox
+  tasks.forEach((task) => {
     const listItem = document.createElement('li');
-    listItem.textContent = task.description;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+
+    const label = document.createElement('label');
+    label.textContent = task.description;
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        label.style.textDecoration = 'line-through';
+        label.style.fontStyle ='italic';
+      } else {
+        label.style.textDecoration = 'none';
+      }
+    });
+
+    listItem.appendChild(checkbox);
+    listItem.appendChild(label);
     listContainer.appendChild(listItem);
   });
 }
