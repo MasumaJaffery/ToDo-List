@@ -19,7 +19,7 @@ function handleFormSubmit() {
 function renderList() {
   listContainer.innerHTML = '';
 
-  tasks.forEach((task, id) => {
+  tasks.forEach((task, index) => {
     const checkbox = document.createElement('input');
     const remove = document.createElement('button');
     const strdiv = document.createElement('div');
@@ -50,9 +50,18 @@ function renderList() {
     remove.className = 'removebtn';
     remove.innerHTML = '<i class="fas fa-trash"></i>';
     remove.addEventListener('click', () => {
-      tasks.splice(id, 1);
+      tasks.splice(index, 1);
       renderList();
       saveTasksToLocalStorage();
+    });
+
+    listItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        listItem.contentEditable = "false";
+        task.description = listItem.innerText.trim();
+        saveTasksToLocalStorage();
+      }
     });
 
     strdiv.appendChild(checkbox);
@@ -61,7 +70,6 @@ function renderList() {
     btndiv.appendChild(remove);
     listItem.appendChild(strdiv);
     listItem.appendChild(btndiv);
-
     listContainer.appendChild(listItem);
   });
 }
@@ -84,13 +92,6 @@ function loadTasksFromLocalStorage() {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   handleFormSubmit();
-});
-
-// Event listener for "Enter" key press
-document.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    handleFormSubmit();
-  }
 });
 
 // Event listener for button click with ID "enter"
