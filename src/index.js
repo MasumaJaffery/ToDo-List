@@ -3,50 +3,75 @@ import List from './modules/list.js';
 
 const form = document.getElementById('list-form');
 const listContainer = document.getElementById('list-container');
-const tasks = [];
-let id = tasks.length;
+let tasks = [];
+let id = 0;
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const input = document.getElementById('input-id');
-  const todo = new List(input.value, Boolean(), id); 
+  const todo = new List(input.value, Boolean(), id);
   tasks.push(todo);
-  // Pushing Objests in Task Array!
   id += 1;
   renderList();
+  saveTasksToLocalStorage();
 });
 
 function renderList() {
-  // Clear the list container
   listContainer.innerHTML = '';
 
-  // Render each task as a checkbox
-  tasks.forEach((task) => {
-    const listItem = document.createElement('li');
+  tasks.forEach((task,id) => {
     const checkbox = document.createElement('input');
+    const remove = document.createElement('button');
     checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
 
-    const label = document.createElement('label');
-    label.textContent = task.description;
+    const listItem = document.createElement('li');
+    listItem.contentEditable = "true";
 
     checkbox.addEventListener('change', () => {
+      task.completed = checkbox.checked;
       if (checkbox.checked) {
-        label.style.textDecoration = 'line-through';
-        label.style.fontStyle ='italic';
+        listItem.style.textDecoration = 'line-through';
+        listItem.style.fontStyle = 'italic';
       } else {
-        label.style.textDecoration = 'none';
+        listItem.style.textDecoration = 'none';
+        listItem.style.fontStyle = 'normal';
       }
+      saveTasksToLocalStorage();
+    });
+
+    remove.textContent = '<i class="bi bi-backspace"></i>';
+    remove.addEventListener('click', () => {
+      // Remove button click functionality here!
+      tasks.splice(id, 1); 
+      renderList();
+      saveTasksToLocalStorage();
     });
 
     listItem.appendChild(checkbox);
-    listItem.appendChild(label);
+    listItem.appendChild(document.createTextNode(task.description));
+    listItem.appendChild(remove);
+
     listContainer.appendChild(listItem);
   });
 }
 
-// Render the list on page load
+
+
+function saveTasksToLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasksFromLocalStorage() {
+  const storedTasks = localStorage.getItem('tasks');
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+    id = tasks.length;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  loadTasksFromLocalStorage();
   renderList();
 });
 
