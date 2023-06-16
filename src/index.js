@@ -1,6 +1,7 @@
 import './style.css';
 import List from './modules/list.js';
 
+
 const form = document.getElementById('list-form');
 const listContainer = document.getElementById('list-container');
 let tasks = [];
@@ -22,11 +23,18 @@ function renderList() {
   tasks.forEach((task,id) => {
     const checkbox = document.createElement('input');
     const remove = document.createElement('button');
+    const strdiv = document.createElement('div');
+    const btndiv = document.createElement('div'); 
+  
     checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
-
     const listItem = document.createElement('li');
-    listItem.contentEditable = "true";
+    const edit = document.createElement('button');
+    edit.className = 'editbtn';
+    edit.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+    edit.addEventListener('click', () => {
+      listItem.contentEditable = "true";
+    }); 
 
     checkbox.addEventListener('change', () => {
       task.completed = checkbox.checked;
@@ -39,8 +47,8 @@ function renderList() {
       }
       saveTasksToLocalStorage();
     });
-
-    remove.textContent = '<i class="bi bi-backspace"></i>';
+    remove.className = 'removebtn';
+    remove.innerHTML = '<i class="fas fa-trash"></i>';
     remove.addEventListener('click', () => {
       // Remove button click functionality here!
       tasks.splice(id, 1); 
@@ -48,9 +56,12 @@ function renderList() {
       saveTasksToLocalStorage();
     });
 
-    listItem.appendChild(checkbox);
-    listItem.appendChild(document.createTextNode(task.description));
-    listItem.appendChild(remove);
+    strdiv.appendChild(checkbox);
+    strdiv.appendChild(document.createTextNode(task.description));
+    btndiv.appendChild(edit);
+    btndiv.appendChild(remove);
+    listItem.appendChild(strdiv);
+    listItem.appendChild(btndiv);
 
     listContainer.appendChild(listItem);
   });
