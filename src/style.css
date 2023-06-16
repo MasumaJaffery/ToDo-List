@@ -79,5 +79,15 @@ li {
   list-style: none;
   border: 1px solid #000;
   width: 35vw;
-  padding: 0.2rem;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.removebtn,
+.editbtn {
+  background-color: #fff;
+  border: none;
+  padding: 0.3rem;
 }
