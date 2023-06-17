@@ -94,10 +94,19 @@ form.addEventListener('submit', (e) => {
   handleFormSubmit();
 });
 
+
 // Event listener for button click with ID "enter"
 const enterBtn = document.getElementById('enter');
 enterBtn.addEventListener('click', () => {
   handleFormSubmit();
+});
+
+//Event listener for Clear Completed Tasks Button
+const clearButton = document.getElementById('clear');
+clearButton.addEventListener('click', () => {
+  tasks = tasks.filter((task) => !task.completed);
+  saveTasksToLocalStorage();
+  renderList();
 });
 
 // Load tasks from local storage and render the list
@@ -105,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadTasksFromLocalStorage();
   renderList();
 });
+
+
 
 console.log('tasks', tasks);
 
