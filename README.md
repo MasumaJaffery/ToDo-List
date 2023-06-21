@@ -94,12 +94,8 @@ HTML+CSS+JS+GITHUB
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-
-<<<<<<<<< Temporary merge branch 1
 - [Live Demo Link](https://masumajaffery.github.io/ToDo-List/dist/)
-=========
-- [Live Demo Link]()
->>>>>>>>> Temporary merge branch 2
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
