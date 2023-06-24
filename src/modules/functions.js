@@ -1,102 +1,133 @@
 import List from './list.js';
+import { form, listContainer, clearButton, input } from './global.js';
 
-function handleFormSubmit(inputValue, tasks) {
-  const todo = new List(inputValue, Boolean(), tasks.length);
-  const updatedTasks = [...tasks, todo];
-  return updatedTasks;
+let tasks = [];
+let id = 0;
+
+// Function to handle form submission
+function handleFormSubmit() {
+  const todo = new List(input.value, Boolean(), id);
+  tasks.push(todo);
+  id += 1;
+  saveTasksToLocalStorage(); // Call saveTasksToLocalStorage() after adding a task
+  updateListUI(); // Update the UI
+  input.value = ''; // Clear the input field
 }
 
 function renderList(tasks) {
   return tasks.map((task) => {
-    const listItem = createListItem(task);
+    const checkbox = document.createElement('input');
+    const remove = document.createElement('button');
+    const strdiv = document.createElement('div');
+    const btndiv = document.createElement('div');
+
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+
+    const listItem = document.createElement('li');
+    const edit = document.createElement('button');
+    edit.className = 'editbtn';
+    edit.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+    edit.addEventListener('click', () => {
+      listItem.contentEditable = 'true';
+    });
+
+    checkbox.addEventListener('change', () => {
+      task.completed = checkbox.checked;
+      if (checkbox.checked) {
+        listItem.style.textDecoration = 'line-through';
+        listItem.style.fontStyle = 'italic';
+      } else {
+        listItem.style.textDecoration = 'none';
+        listItem.style.fontStyle = 'normal';
+      }
+    });
+
+    remove.className = 'removebtn';
+    remove.innerHTML = '<i class="fas fa-trash"></i>';
+    remove.addEventListener('click', () => {
+      // Handle remove task functionality here
+    });
+
+    listItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        listItem.contentEditable = 'false';
+        task.description = listItem.innerText.trim();
+      }
+    });
+
+    // Append elements to listItem
+    listItem.appendChild(strdiv);
+    listItem.appendChild(btndiv);
+    strdiv.appendChild(checkbox);
+    strdiv.appendChild(document.createTextNode(task.description));
+    btndiv.appendChild(edit);
+    btndiv.appendChild(remove);
+
     return listItem;
+  });
+} 
+
+function updateListUI() {
+  const listItems = renderList();
+  listContainer.innerHTML = '';
+  listItems.forEach((item) => {
+    listContainer.appendChild(item);
   });
 }
 
-function createListItem(task) {
-  const listItem = document.createElement('li');
-  const checkbox = document.createElement('input');
-
-  checkbox.type = 'checkbox';
-  checkbox.checked = task.completed;
-  // ... Continue setting up event listeners
-
-  listItem.appendChild(checkbox);
-  // ... Append other elements
-
-  return listItem;
-}
-
-function saveTasksToLocalStorage(tasks) {
+// Function to save tasks to local storage
+function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
-  return tasks;
 }
 
+// Function to load tasks from local storage
 function loadTasksFromLocalStorage() {
   const storedTasks = localStorage.getItem('tasks');
   if (storedTasks) {
-    return JSON.parse(storedTasks);
+    tasks = JSON.parse(storedTasks);
+    id = tasks.length;
   }
-  return [];
 }
 
-function handleFormSubmission(event, tasks) {
-  event.preventDefault();
-  const input = document.getElementById('input-id');
-  const updatedTasks = handleFormSubmit(input.value, tasks);
-  saveTasksToLocalStorage(updatedTasks);
-  return updatedTasks;
-}
+// Event listener for form submission
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  handleFormSubmit();
+});
 
-function handleClickEvent(event, tasks) {
-  const input = document.getElementById('input-id');
-  const updatedTasks = handleFormSubmit(input.value, tasks);
-  saveTasksToLocalStorage(updatedTasks);
-  return updatedTasks;
-}
+// Event listener for button click with ID "enter"
+const enterBtn = document.getElementById('enter');
+enterBtn.addEventListener('click', () => {
+  handleFormSubmit();
+});
 
-function handleClearButtonClick(tasks) {
-  const updatedTasks = tasks.filter((task) => !task.completed);
-  saveTasksToLocalStorage(updatedTasks);
-  return updatedTasks;
-}
+// Event listener for Clear Completed Tasks Button
+clearButton.addEventListener('click', () => {
+  tasks = tasks.filter((task) => !task.completed);
+  saveTasksToLocalStorage();
+  updateListUI(); // Update the UI
+});
 
-function updateListContainer(listContainer, tasks) {
-  listContainer.innerHTML = '';
-  const listItems = renderList(tasks);
-  listItems.forEach((listItem) => {
-    listContainer.appendChild(listItem);
-  });
-}
+// Load tasks from local storage and render the list
+document.addEventListener('DOMContentLoaded', () => {
+  loadTasksFromLocalStorage();
+  updateListUI(); // Update the UI
+});
 
-function initializeApp() {
-  const form = document.getElementById('list-form');
-  const enterBtn = document.getElementById('enter');
-  const clearButton = document.getElementById('clear');
-  const listContainer = document.getElementById('list-container');
+// Add event listener for the "keydown" event on the listItem
+listContainer.addEventListener('keydown', (e) => {
+  const listItem = e.target.closest('li');
+  const taskIndex = Array.from(listContainer.children).indexOf(listItem);
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    listItem.contentEditable = 'false';
+    tasks[taskIndex].description = listItem.innerText.trim();
+    saveTasksToLocalStorage(); // Call saveTasksToLocalStorage() after modifying the task description
+  }
+});
 
-  let tasks = loadTasksFromLocalStorage();
-
-  form.addEventListener('submit', (event) => {
-    tasks = handleFormSubmission(event, tasks);
-    updateListContainer(listContainer, tasks);
-  });
-
-  enterBtn.addEventListener('click', (event) => {
-    tasks = handleClickEvent(event, tasks);
-    updateListContainer(listContainer, tasks);
-  });
-
-  clearButton.addEventListener('click', () => {
-    tasks = handleClearButtonClick(tasks);
-    updateListContainer(listContainer, tasks);
-  });
-
-  updateListContainer(listContainer, tasks);
-
-  console.log('tasks', tasks);
-}
-
-initializeApp();
+console.log('tasks', tasks);
 
 export default Function;

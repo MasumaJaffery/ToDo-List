@@ -5,4 +5,6 @@ class List {
       this.id = id;
     }
 }
-export default List;
+
+// eslint-disable-next-line no-undef
+module.exports = List;
